@@ -115,33 +115,34 @@ class Board:
         return self.current_player
 
 
-
-
 class AI:
     def __init__(self):
         self.z_positions = {}
         self.column_order = [3, 4, 2, 5, 1, 6, 0]
         self.best_move = None
 
-    def negamax(self, board_state, alpha, beta):
+    def negamax(self, board_state):
         if board_state.moves_remaining == 0:
             return 0
 
         for i in range(7):
             if board_state.can_play(self.column_order[i]) and board_state.is_winning_move(self.column_order[i]):
-                return (49 - abs(board_state.moves_remaining-42))//2
+                return (49 - (42 - board_state.moves_remaining))//2
         best_value = -float('inf')
         for i in range(7):
             if board_state.can_play(self.column_order[i]):
-                new_board_state = Board.copy_board(board_state)
+
+                new_board_state = Board(board_state.current_player, board_state)
                 new_board_state.play(self.column_order[i])
-                score = -self.negamax(new_board_state, -beta, -alpha)
+                score = -self.negamax(new_board_state)
 
                 best_value = max(score, best_value)
+
+                '''
                 alpha = max(score, alpha)
                 if alpha >= beta:
                     break
-
+                '''
         return best_value
 
 

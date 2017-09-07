@@ -11,7 +11,7 @@ while not cur_board.won_game():
         print("Please enter a valid option")
         user_input = int(input())
     cur_board.play(user_input)
-    print(artInt.negamax(cur_board, -float("inf"), float("inf")))
+    print(artInt.negamax(cur_board))
 
 
 
